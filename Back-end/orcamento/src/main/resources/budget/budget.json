@@ -1,0 +1,54 @@
+{
+    "budgetId": 3,
+    "clientName": "Marcus Vinicius",
+    "vehicle": "Fiat Bravo",
+    "phone": "123-456-7890",
+    "plate": "ABC-1234",
+    "year": "2012",
+    "totalBudgetCost": 985.00,
+    "totalDiscountedBudgetCost": 938.00,
+    "costList": [
+        {
+            "id": 3,
+            "costName": "Troca de óleo",
+            "quantity": 1.50,
+            "purchaseValue": 100.00,
+            "supplier": "SERVICE",
+            "margin": 0,
+            "percentageDiscount": 0,
+            "realDiscount": 0.00,
+            "unitValue": 0.00,
+            "totalValue": 180.00,
+            "discountedValue": 180.00,
+            "costType": "SERVICO"
+        },
+        {
+            "id": 4,
+            "costName": "Bomba da água",
+            "quantity": 1.00,
+            "purchaseValue": 150.00,
+            "supplier": "SK",
+            "margin": 100,
+            "percentageDiscount": 0,
+            "realDiscount": 0.00,
+            "unitValue": 335.00,
+            "totalValue": 335.00,
+            "discountedValue": 335.00,
+            "costType": "PECA"
+        },
+        {
+            "id": 5,
+            "costName": "Bico do injetor",
+            "quantity": 2.00,
+            "purchaseValue": 100.00,
+            "supplier": "SK",
+            "margin": 100,
+            "percentageDiscount": 10,
+            "realDiscount": 47.00,
+            "unitValue": 235.00,
+            "totalValue": 470.00,
+            "discountedValue": 423.00,
+            "costType": "PECA"
+        }
+    ]
+}

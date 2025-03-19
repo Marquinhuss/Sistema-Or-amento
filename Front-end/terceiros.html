@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="orcamento-servico-terceiros">
+        <h2>Serviços de Terceiros</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Serviço</th>
+                    <th>Margem</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="quantidadeTerceiros"></td>
+                    <td><input type="number" id="servicoTerceiros" ></td>
+                    <td><input type="text" id="margemTerceiros"></td>
+                    <td><input type="number" id="valorTerceiros" ></td>
+                </tr>
+                <!-- Mais linhas podem ser adicionadas aqui -->
+            </tbody>
+        </table>
+        <button id="add-terceiros" onclick="addServiceThirdPartyToTable()">Adicionar Serviço de
+            Terceiros</button>
+        <h5 id="hRejeicaoServicoT" style="font-size: 95%; color: red; display: inline;"></h5>
+        <h3>Itens Adicionados</h3>
+        <table id="tabela-adicionados-terceiros">
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Serviço</th>
+                    <th>Margem</th>
+                    <th>Valor</th>>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linhas adicionadas aqui -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

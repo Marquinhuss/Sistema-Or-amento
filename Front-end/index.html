@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <dialog id="dServicoTerceiros">
+            <div class="orcamento-servico-terceiros">
+                <h2>Serviços de Terceiros</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Quantidade</th>
+                            <th>Serviço</th>
+                            <th>Margem</th>
+                            <th>Desconto</th>
+                            <th>Valor</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="number" id="quantidadeTerceiros"></td>
+                            <td><input type="text" id="servicoTerceiros" ></td>
+                            <td><input type="number" id="margemTerceiros"></td>
+                            <td><input type="number" id="descontoTerceiros" value="0"></td>
+                            <td><input type="number" id="valorTerceiros" ></td>
+                            <td><input type="number" id="valorFinalTerceiros" ></td>
+
+                        </tr>
+                        <!-- Mais linhas podem ser adicionadas aqui -->
+                    </tbody>
+                </table>
+                <div class="rowDiv">
+                    <button type="button" id="add-terceiros" onclick="addServiceThirdPartyToTable()">Adicionar Serviço deTerceiros</button>
+                    <h5 id="hRejeicaoServicoTerceiros" style="font-size: 95%; color: red; display: inline;"></h5>
+                    <div class="spacer" style="flex: 1;"></div>
+                    <button type="button">Editar Serviço</button>
+                </div>
+                <h3>Itens Adicionados</h3>
+                <table id="tabela-adicionados-terceiros">
+                    <thead>
+                        <tr>
+                            <th>Quantidade</th>
+                            <th>Serviço</th>
+                            <th>Margem</th>
+                            <th>Desconto</th>
+                            <th>Valor</th>
+                            <th>Valor Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Linhas adicionadas aqui -->
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" onclick="closeThirdPartyService()">Fechar</button>
+        </dialog>
+        <div class="top-section">
+            <div class="dados-cliente">
+                <h2>Dados Cliente e Veículo</h2>
+                <label for="cliente">Cliente</label>
+                <input type="text" id="inpCliente" name="cliente">
+                <label for="telefone">Telefone</label>
+                <input type="text" id="inpTelefone" name="telefone">
+                <label for="veiculo">Veículo</label>
+                <input type="text" id="inpVeiculo" name="veiculo">
+                <label for="placa">Placa</label>
+                <input type="text" id="inpPlaca" name="placa">
+                <label for="ano">Ano</label>
+                <input type="text" id="inpAno" name="ano">
+            </div>
+
+            <div class="spacer-central">
+                <div class="container-botoes">
+                    <button id="copiarInformacoes" class="botoes-central" onclick="copyVehicleData()">Copiar Dados do
+                        Veiculo</button><br>
+                    <button id="calcularOrcamento" class="botoes-central" onclick="calculateBudget()">Calcular
+                        orçamento</button> <br>
+                    <button id="imprimirPdf" class="botoes-central">Imprimir Orçamento</button><br>
+                    <button id="servicoTerceiros" class="botoes-central" type="button"
+                        onclick="openThirdPartyService()">Serviços Terceiros</button>
+                </div>
+            </div>
+            <div class="total-orcamento">
+                <h2>Total Orçamento</h2>
+                <p>Serv. de Terceiros: R$ <span id="serv_terceiros">0,00</span></p>
+                <p>Valor de Peças: R$ <span id="valor_pecas">0,00</span></p>
+                <p>Valor de Serviços: R$ <span id="valor_servicos">0,00</span></p>
+                <p>Valor Total: R$ <span id="valor_total">0,00</span></p>
+                <p>Valor do Desconto: R$ <span id="valor_desconto">0,00</span></p>
+                <p>Total com Desconto: R$ <span id="total_com_desconto">0,00</span></p>
+            </div>
+
+            <div class="spacer" style="flex: 0.1;"></div>
+
+            <div class="total-orcamento">
+                <h2>Descontos</h2>
+                <p>Desconto Peças %
+                    <input class="input-descontos" id="descontoPeca" ></input>
+                </p>
+                <p>Desconto Serviço %
+                    <input class="input-descontos" id="descontoServico" ></input>
+                </p>
+                <p>Desconto Serv Terceiros %
+                    <input class="input-descontos" id="descontoServicoTerceiro" ></input>
+                </p>
+                <p>Desconto Total: R$ <span id="valor_total">
+                        <input  class="input-descontos" id="descontoTotal" disabled>
+                </p>
+
+            </div>
+        </div>
+    </div>
+    <div class="orcamento-section">
+        <div class="orcamento">
+            <h2>Orçamento Peças</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Quantidade</th>
+                        <th>Nome do Produto</th>
+                        <th>Valor de Compra</th>
+                        <th>Fornecedor</th>
+                        <th>Margem</th>
+                        <th>Desconto %</th>
+                        <th>Unidade $</th>
+                        <th>Total $</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="number" id="inpQtdeProduto" step="1" class="input" value=""></td>
+                        <td><input type="text" id="inpNomeProduto" class="input" value=""></td>
+                        <td><input type="number" id="inpValCompraProduto" class="input" value="">
+                        </td>
+                        <td><input type="text" id="inpFornecedorProduto" class="input" value=""></td>
+                        <td><input type="number" id="inpMargProduto" class="input" value=""></td>
+                        <td><input type="number" id="inpDescontoProduto" class="input" value=""></td>
+                        <td><input type="number" id="inpValorUnidadeProduto" class="input" disabled></td>
+                        <td><input type="number" id="inpTotalProduto" class="input" disabled></td>
+                    </tr>
+                    <!-- Mais linhas podem ser adicionadas aqui -->
+                </tbody>
+            </table>
+            <div class="rowDiv">
+                <button type="button" onclick="addPartsToTable()">Adicionar Produto</button>
+                <h5 id="hRejeicaoPeca" style="font-size: 95%; color: red;"></h5>
+                <div class="spacer" style="flex: 1;"></div>
+            </div>
+            <h3>Itens Adicionados</h3>
+            <table id="tabela-adicionados-pecas">
+                <thead>
+                    <tr>
+                        <th>Qtde.</th>
+                        <th>Produto</th>
+                        <th>Val. Compra</th>
+                        <th>Fornecedor</th>
+                        <th>Marg.</th>
+                        <th>Desc. F.</th>
+                        <th>Unidade $</th>
+                        <th>Total $</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas adicionadas aqui -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="spacer" style="flex: 0.1"></div>
+
+        <div class="orcamento-servico">
+            <h2>Orçamento Serviço</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Horas</th>
+                        <th>Serviço</th>
+                        <th>Categoria</th>
+                        <th>Desconto</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="number" id="inpHorasServ" step="0.1"></td>
+                        <td><input type="text" id="inpServ"></td>
+                        <td>
+                            <select id="inpTipoCarro" class="options-cars"> 
+                                <option value="economico">Econômico</option>
+                                <option value="intermediario">Intermediário</option>
+                                <option value="luxo">Luxo</option>
+                            </select>
+                        </td>
+                        <td><input type="text" id="inpDescontoServ" value="0"></td>
+                        <td><input type="number" id="inpValorServ" step="0.01" disabled></td>
+                    </tr>
+                </tbody>
+                    <!-- Mais linhas podem ser adicionadas aqui -->
+                </tbody>
+            </table>
+            <div class="rowDiv">
+                <button id="add-servico" onclick="addServiceToTable()">Adicionar Serviço</button>
+                <h5 id="hRejeicaoServico" style="font-size: 95%; color: red; display: inline;"></h5>
+                <div class="spacer" style="flex: 1;"></div>
+                <button type="button">Editar serviço</button>
+            </div>
+            <h3>Itens Adicionados</h3>
+            <table id="tabela-adicionados-servicos">
+                <thead>
+                    <tr>
+                        <th>Horas</th>
+                        <th>Serviço</th>
+                        <th>Desconto</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <script src="JS/script.js"></script>
+</body>
+
+</html>
